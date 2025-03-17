@@ -29,21 +29,23 @@ class KategoriController extends Controller
 
     public function list(Request $request)
     {
-        $kategories = KategoriModel::select('id', 'kategori_kode', 'kategori_nama');
+        $kategori = KategoriModel::select('id', 'kategori_kode', 'kategori_nama');
 
         if ($request->id) {
-            $kategories->where('id', $request->id);
+            $kategori->where('id', $request->id);
         }
 
-        return DataTables::of($kategories)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($kategori) {
-                // Tombol aksi menggunakan AJAX: Edit dan Hapus
-                $btn  = '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="deleteKategori(\'' . $kategori->id . '\')" class="btn btn-danger btn-sm">Hapus</button>';
+        return DataTables::of($kategori)
+            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            ->addColumn('aksi', function ($kategori) { // menambahkan kolom aksi
+
+                $btn = '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+
+                $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
+
                 return $btn;
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
             ->make(true);
     }
 

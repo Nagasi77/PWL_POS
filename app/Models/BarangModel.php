@@ -25,7 +25,7 @@ class BarangModel extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(KategoriModel::class, 'id', 'id');
+        return $this->belongsTo(KategoriModel::class, 'kategori_id', 'id');
     }
 
     public function stok()

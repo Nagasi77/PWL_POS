@@ -1,60 +1,61 @@
-@if(is_null($stok))
-    <div class="modal-dialog modal-lg" role="document">
+@empty($stok)
+    <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-
+                        label="Close"><span aria-hidden="true">&times;</span></button>
+                
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    Data stok tidak ditemukan.
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang anda cari tidak ditemukan
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <a href="{{ url('/stok') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Konfirmasi Hapus Stok</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin menghapus data stok untuk barang
-                <strong>{{ $stok->barang ? $stok->barang->barang_nama : '-' }}</strong> dengan jumlah
-                <strong>{{ $stok->stok_jumlah }}</strong>?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                <button type="button" onclick="deleteStok('{{ $stok->stok_id }}')" class="btn btn-danger">Hapus</button>
+
+    <form action="{{ url('/stok/' . $stok->stok_id.'/delete_ajax') }}" method="POST" id="form-delete">
+
+        @csrf
+        @method('DELETE')
+        <div id="modal-master" class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data stok</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-
+                            label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
+                        Apakah Anda ingin menghapus data seperti di bawah ini?
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
+
+                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
+                </div>
             </div>
         </div>
-    </div>
-
+    </form>
     <script>
-        function deleteStok(id) {
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menghapus data stok ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
+        $(document).ready(function () {
+            $("#form-delete").validate({
+                rules: {},
+                submitHandler: function (form) {
                     $.ajax({
-                        url: '/stok/' + id + '/delete_ajax',  // Pastikan route DELETE /stok/{id}/delete_ajax sudah terdefinisi
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
+                        url: form.action,
+                        type: form.method,
+                        data: $(form).serialize(),
                         success: function (response) {
                             if (response.status) {
                                 $('#myModal').modal('hide');
@@ -63,28 +64,34 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                if (window.dataStok) {
-                                    window.dataStok.ajax.reload();
-                                }
+                                dataStok.ajax.reload();
                             } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function (prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
                                     text: response.message
                                 });
                             }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Gagal menghapus data stok.'
-                            });
                         }
                     });
+                    return false;
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
                 }
             });
-        }
+        });
     </script>
-@endif
+@endempty
