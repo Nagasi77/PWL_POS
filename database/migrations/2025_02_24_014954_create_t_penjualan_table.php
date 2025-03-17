@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->timestamps();
 
             // Sesuaikan dengan primary key `user_id`
-            $table->foreign('user_id')->references('user_id')->on('m_user')->onDelete('cascade');
+            $table->foreign('user_id')->references('user_id')->on('m_user');
         });
     }
 

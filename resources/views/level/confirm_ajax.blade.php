@@ -1,90 +1,98 @@
-@if(empty($level))
-    <div class="modal-dialog modal-lg" role="document">
+@empty($level)
+    <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-
+                        label="Close"><span aria-hidden="true">&times;</span></button>
+                
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    Data level tidak ditemukan.
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang anda cari tidak ditemukan
                 </div>
+                <a href="{{ url('/level') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <!-- Tampilkan modal konfirmasi hapus -->
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Konfirmasi Hapus Level</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin menghapus level <strong>{{ $level->level_nama }}</strong>?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                <button type="button" onclick="deleteLevel('{{ $level->level_id }}')" class="btn btn-danger">Hapus
-                </button>
+
+    <form action="{{ url('/level/' . $level->level_id.'/delete_ajax') }}" method="POST" id="form-delete">
+
+        @csrf
+        @method('DELETE')
+        <div id="modal-master" class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus level</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-
+                            label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
+                        Apakah Anda ingin menghapus data seperti di bawah ini?
+                    </div>
+                 
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
+
+                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
+                </div>
             </div>
         </div>
-    </div>
-@endif
-
-<script>
-    // Fungsi deleteLevel didefinisikan secara global
-    function deleteLevel(id) {
-        // Konfirmasi menggunakan SweetAlert
-        Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin menghapus level ini?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '/level/' + id + '/delete_ajax', // Sesuaikan URL jika perlu
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}' // Sertakan token CSRF
-                    },
-                    success: function (response) {
-                        if (response.status) {
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            });
-                            // Reload DataTable jika variabel dataLevel tersedia
-                            if (window.dataLevel) {
-                                window.dataLevel.ajax.reload();
+    </form>
+    <script>
+        $(document).ready(function () {
+            $("#form-delete").validate({
+                rules: {},
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: form.action,
+                        type: form.method,
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            if (response.status) {
+                                $('#myModal').modal('hide');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: response.message
+                                });
+                                dataLevel.ajax.reload();
+                            } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function (prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Terjadi Kesalahan',
+                                    text: response.message
+                                });
                             }
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Gagal menghapus level.'
-                        });
-                    }
-                });
-            }
+                    });
+                    return false;
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
         });
-    }
-</script>
+    </script>
+@endempty

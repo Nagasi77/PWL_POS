@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key untuk menghubungkan level_id ke m_level
-            $table->foreign('level_id')->references('level_id')->on('m_level')->onDelete('cascade');
+            $table->foreign('level_id')->references('level_id')->on('m_level');
         });
     }
 
