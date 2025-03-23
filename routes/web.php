@@ -5,9 +5,20 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [WelcomeController::class, 'index']);
+
+
+Route::pattern('id', '(0-9)+');
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'postlogin']);
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    
 
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);
@@ -47,7 +58,7 @@ Route::prefix('kategori')->group(function () {
     Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
 });
 
-use App\Http\Controllers\BarangController;
+
 
 Route::prefix('barang')->group(function () {
     Route::get('/', [BarangController::class, 'index']);
@@ -71,4 +82,7 @@ Route::prefix('stok')->group(function () {
     Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);
+});
+
+Route::get('/', [WelcomeController::class, 'index']);
 });
