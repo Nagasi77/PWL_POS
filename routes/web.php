@@ -49,7 +49,9 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
         });
     });
+    
 
+    Route::middleware(['authorize:MNG'])->group(function () {
     // Route lainnya tanpa pembatasan level user
     Route::prefix('kategori')->group(function () {
         Route::get('/', [KategoriController::class, 'index']);
@@ -62,9 +64,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);
         Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
     });
-
 });
-
 
 
 Route::prefix('barang')->group(function () {
@@ -79,6 +79,7 @@ Route::prefix('barang')->group(function () {
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);
 });
 
+Route::middleware(['authorize:STF'])->group(function () {
 Route::prefix('stok')->group(function () {
     Route::get('/', [StokController::class, 'index']);
     Route::post('/list', [StokController::class, 'list'])->name('stok.list');
@@ -90,6 +91,8 @@ Route::prefix('stok')->group(function () {
     Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);
 });
+});
 
 Route::get('/', [WelcomeController::class, 'index']);
+});
 });
