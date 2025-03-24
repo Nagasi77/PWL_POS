@@ -78,9 +78,19 @@
                             <p>Transaksi penjualan</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link text-left" style="width: 100%; color: white;">
+                                <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Logout
+                            </button>
+                        </form>
+                    </li>
+                    
                 </ul>
             </li>
         </ul>
     </nav>
+    
     <!-- /.sidebar-menu -->
 </div>

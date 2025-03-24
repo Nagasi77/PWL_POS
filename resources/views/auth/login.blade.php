@@ -1,35 +1,77 @@
 @extends('layouts.auth')
+
 <style>
     body {
-        background: linear-gradient(to right, #039fff, #ebebeb); /* Warna hijau */
-        color: white;
+        background: #212529; /* Warna gelap solid */
+        color: #f8f9fa; /* Warna teks lebih terang */
     }
+
     .login-box {
-        background: rgba(255, 255, 255, 0.9);
+        background: #343a40; /* Warna gelap lebih solid */
+        color: #ffffff;
         padding: 20px;
         border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     }
-    </style>
-    <style>
-        .btn-success:hover {
-            background-color: #1000f1;
-            transform: scale(1.05);
-            transition: 0.3s ease-in-out;
-        }
-        .form-control:focus {
-            border-color: #06459e;
-            box-shadow: 0 0 8px #032257;
-        }
-    </style>
-    
-    
+
+    .card-header a {
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .login-box-msg {
+        color: #000000; 
+
+    .form-control {
+        background-color: #495057;
+        border: 1px solid #6c757d;
+        color: #ffffff;
+    }
+
+    .form-control::placeholder {
+        color: #e0e0e0;
+    }
+
+    .form-control:focus {
+        border-color: #f8f9fa;
+        box-shadow: 0 0 8px rgba(248, 249, 250, 0.8);
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Biru solid */
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+        transform: scale(1.05);
+        transition: 0.3s ease-in-out;
+    }
+
+    .text-link {
+        color: #f8f9fa; /* Link lebih jelas */
+    }
+
+    .text-link:hover {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    .input-group-text {
+        background-color: #495057;
+        color: #ffffff;
+    }
+</style>
+
 @section('content')
 <div class="login-box">
-    <div class="card card-primary">
+    <div class="card card-dark">
         <div class="card-header text-center">
             <a href="{{ url('/') }}" class="h1">PWL POS</a>
         </div>
-        
+
         <div class="card-body">
             <p class="login-box-msg">Silahkan masuk untuk melanjutkan</p>
             <form action="{{ url('login') }}" method="POST" id="form-login">
@@ -46,7 +88,6 @@
                 <div class="input-group mb-3">
                     <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                     <div class="input-group-append">
-                        <!-- Tambahkan tombol toggle password -->
                         <div class="input-group-text">
                             <a href="#" class="toggle-password" data-target="#password">
                                 <i class="fas fa-eye"></i>
@@ -54,31 +95,31 @@
                         </div>
                     </div>
                     <small id="error-password" class="error-text text-danger"></small>
-                    
-                </div><div class="row">
+                </div>
+                <div class="row">
                     <div class="col-5">
-                        <button type="submit" class="btn btn-primary btn-block" style="font-weight: bold;">
+                        <button type="submit" class="btn btn-primary btn-block font-weight-bold">
                             <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Masuk
                         </button>
                     </div>
                     <div class="col-7 d-flex align-items-center justify-content-end">
                         <div class="icheck-primary">
                             <input type="checkbox" id="remember">
-                            <label for="remember">Ingat Saya</label>
+                            <label for="remember" style="color: #000000;">Ingat Saya</label>
                         </div>
                     </div>
                 </div>
                 
+                    </div>
+                </div>
             </form>
-            <!-- Link ke halaman registrasi -->
+
             <p class="mb-0 mt-3">
-                Belum punya akun?<a href="{{ url('register') }}" class="text-center"> Daftar di sini</a>
+                Belum punya akun? <a href="{{ url('register') }}" class="text-link">Daftar di sini</a>
             </p>
         </div>
-        
     </div>
 </div>
-
 
 @push('js')
 <script>
@@ -96,7 +137,6 @@
                 icon.removeClass('fa-eye-slash').addClass('fa-eye');
             }
         });
-        
 
         // Validasi form login dengan jQuery Validate
         $("#form-login").validate({
@@ -165,7 +205,6 @@
             }
         });
     });
-    
 </script>
 @endpush
 @endsection
