@@ -18,7 +18,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 Route::middleware(['auth'])->group(function () {
     
-
+    Route::middleware(['authorize:ADM'])->group(function () {
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
@@ -31,6 +31,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
+});
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -49,9 +50,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
         });
     });
-    
 
-    Route::middleware(['authorize:MNG'])->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->group(function () {
     // Route lainnya tanpa pembatasan level user
     Route::prefix('kategori')->group(function () {
         Route::get('/', [KategoriController::class, 'index']);
@@ -65,8 +65,11 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
     });
 });
+});
 
 
+
+Route::middleware(['authorize:ADM,MNG'])->group(function () {
 Route::prefix('barang')->group(function () {
     Route::get('/', [BarangController::class, 'index']);
     Route::post('/list', [BarangController::class, 'list'])->name('barang.list');
@@ -78,8 +81,10 @@ Route::prefix('barang')->group(function () {
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);
 });
+});
 
-Route::middleware(['authorize:STF'])->group(function () {
+ Route::middleware(['authorize:ADM,STF'])->group(function () {
+
 Route::prefix('stok')->group(function () {
     Route::get('/', [StokController::class, 'index']);
     Route::post('/list', [StokController::class, 'list'])->name('stok.list');
@@ -94,5 +99,4 @@ Route::prefix('stok')->group(function () {
 });
 
 Route::get('/', [WelcomeController::class, 'index']);
-});
 });
