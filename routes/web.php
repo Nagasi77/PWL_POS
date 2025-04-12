@@ -24,13 +24,13 @@ Route::middleware(['auth'])->group(function () {
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', [UserController::class, 'index']);
             Route::post('/list', [UserController::class, 'list']);
-            Route::get('/create', [UserController::class, 'create']);
-            Route::post('/', [UserController::class, 'store']);
             Route::get('/create_ajax', [UserController::class, 'create_ajax']);
             Route::post('/ajax', [UserController::class, 'store_ajax']);
             Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
             Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
             Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
+            Route::get('/import', [UserController::class, 'import']);
+            Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
         });
@@ -42,14 +42,16 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware(['authorize:ADM'])->group(function () {
             Route::prefix('level')->group(function () {
                 Route::get('/', [LevelController::class, 'index']);
-                Route::post('/list', [LevelController::class, 'list'])->name('level.list');
-                Route::get('/create_ajax', [LevelController::class, 'create_ajax']);
-                Route::post('/ajax', [LevelController::class, 'store_ajax']);
-                Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
-                Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']);
-                Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']);
-                Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']);
-                Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
+            Route::post('/list', [LevelController::class, 'list'])->name('level.list');
+            Route::get('/create_ajax', [LevelController::class, 'create_ajax']);
+            Route::post('/ajax', [LevelController::class, 'store_ajax']);
+            Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
+            Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']);
+            Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']);
+            Route::get('/import', [LevelController::class, 'import']);
+            Route::post('/import_ajax', [LevelController::class, 'import_ajax']);
+            Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']);
+            Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
             });
         });
 
@@ -60,9 +62,10 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/list', [KategoriController::class, 'list'])->name('kategori.list');
                 Route::get('/create_ajax', [KategoriController::class, 'create_ajax']);
                 Route::post('/ajax', [KategoriController::class, 'store_ajax']);
-                Route::get('/{id}/show_ajax', [KategoriController::class, 'show_ajax']);
                 Route::get('/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']);
                 Route::put('/{id}/update_ajax', [KategoriController::class, 'update_ajax']);
+                Route::get('/import', [KategoriController::class, 'import']);
+                Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
                 Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);
                 Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
             });
