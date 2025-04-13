@@ -8,6 +8,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('id', '(0-9)+');
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/import', [UserController::class, 'import']);
             Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/export_excel', [UserController::class, 'export_excel']);
+            Route::get('/export_pdf', [UserController::class, 'export_pdf']);
             Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
         });
@@ -52,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/import', [LevelController::class, 'import']);
             Route::post('/import_ajax', [LevelController::class, 'import_ajax']);
             Route::get('/export_excel', [LevelController::class, 'export_excel']);
+            Route::get('/export_pdf', [LevelController::class, 'export_pdf']);
             Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
             });
@@ -69,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/import', [KategoriController::class, 'import']);
                 Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
                 Route::get('/export_excel', [KategoriController::class, 'export_excel']);
+                Route::get('/export_pdf', [KategoriController::class, 'export_pdf']);
                 Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);
                 Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
             });
@@ -107,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']);
             Route::post('/import_ajax', [StokController::class, 'import_ajax']);
             Route::get('/export_excel', [StokController::class, 'export_excel']);
+            Route::get('/export_pdf', [StokController::class, 'export_pdf']);
             Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);
         });
