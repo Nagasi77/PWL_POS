@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('username', 20)->unique();
             $table->string('nama', 100);
             $table->string('password');
+            $table->string('photo')->nullable()->default(null);
             $table->timestamps();
 
             // Foreign key untuk menghubungkan level_id ke m_level

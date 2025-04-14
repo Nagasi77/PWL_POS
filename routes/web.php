@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/list', [UserController::class, 'list']);
             Route::get('/create_ajax', [UserController::class, 'create_ajax']);
             Route::post('/ajax', [UserController::class, 'store_ajax']);
+            Route::get('/edit_profile', [UserController::class, 'edit_profile'])->name('edit_profile');
+            Route::put('/{id}/update_profil}', [UserController::class, 'update_profile'])->name('update_profil');
             Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax'])->name('user.show_ajax');
             Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
             Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);

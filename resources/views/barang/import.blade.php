@@ -35,37 +35,44 @@
             },
             submitHandler: function (form) {
                 var formData = new FormData(form); // Jadikan form ke FormData untuk
-menghandle file
                 $.ajax({
                     url: form.action,
                     type: form.method,
                     data: formData, // Data yang dikirim berupa FormData
                     processData: false, // setting processData dan contentType ke false,
                     untuk menghandle file
-contentType: false,
-                    success: function (response) {
-                        if (response.status) { // jika sukses
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            });
-                            tableBarang.ajax.reload(); // reload datatable
-                        } else { // jika error
-                            $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
-                        }
-                    }
+contentType: false,submitHandler: function (form) {
+    var formData = new FormData(form); // Jadikan form ke FormData untuk menghandle file
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        processData: false, // untuk menghandle file
+        contentType: false, // penting! biar file bisa terkirim
+        success: function (response) {
+            if (response.status) {
+                $('#myModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message
                 });
-                return false;
+                tableBarang.ajax.reload();
+            } else {
+                $('.error-text').text('');
+                $.each(response.msgField, function (prefix, val) {
+                    $('#error-' + prefix).text(val[0]);
+                });
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan',
+                    text: response.message
+                });
+            }
+        }
+    });
+    return false;
+}
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
