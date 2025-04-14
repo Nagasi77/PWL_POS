@@ -1,90 +1,51 @@
-<form action="{{ url('/barang/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
-    @csrf
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Barang</h5>
-                <button type="button" class="close" data-dismiss="modal" arialabel="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Download Template</label>
-                    <a href="{{ asset('template_barang.xlsx') }}" class="btn btn-info btnsm" download><i
-                            class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-kategori_id" class="error-text form-text textdanger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Pilih File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="formcontrol" required>
-                    <small id="error-file_barang" class="error-text form-text textdanger"></small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btnwarning">Batal</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
+<style>
+    .import-box {
+        max-width: 500px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: #f9fafb;
+        border-radius: 12px;
+        position: relative;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        font-family: sans-serif;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        color: #9ca3af;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .close-btn:hover {
+        color: #ef4444;
+    }
+</style>
+
+<div class="import-box">
+    <!-- Tombol X untuk kembali ke halaman sebelumnya -->
+    <a href="{{ url()->previous() }}" class="close-btn">&times;</a>
+
+    <h2><i class="fas fa-upload"></i> Import Data Barang</h2>
+
+    <form action="{{ url('/barang/import_ajax') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <p>Silakan upload file Excel sesuai template:</p>
+
+        <a href="{{ asset('assets/templates/template_barang.xlsx') }}" download>
+            Download Template Excel
+        </a>
+
+        <div style="margin-top: 1rem;">
+            <label for="file_barang">File Excel (.xlsx):</label><br>
+            <input type="file" id="file_barang" name="file_barang" accept=".xlsx" required>
+            <small id="error-file_barang" class="error-text text-danger"></small>
         </div>
-    </div>
-</form>
-<script>
-    $(document).ready(function () {
-        $("#form-import").validate({
-            rules: {
-                file_barang: { required: true, extension: "xlsx" },
-            },
-            submitHandler: function (form) {
-                var formData = new FormData(form); // Jadikan form ke FormData untuk
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: formData, // Data yang dikirim berupa FormData
-                    processData: false, // setting processData dan contentType ke false,
-                    untuk menghandle file
-contentType: false,submitHandler: function (form) {
-    var formData = new FormData(form); // Jadikan form ke FormData untuk menghandle file
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        processData: false, // untuk menghandle file
-        contentType: false, // penting! biar file bisa terkirim
-        success: function (response) {
-            if (response.status) {
-                $('#myModal').modal('hide');
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: response.message
-                });
-                tableBarang.ajax.reload();
-            } else {
-                $('.error-text').text('');
-                $.each(response.msgField, function (prefix, val) {
-                    $('#error-' + prefix).text(val[0]);
-                });
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Kesalahan',
-                    text: response.message
-                });
-            }
-        }
-    });
-    return false;
-}
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-            }
-        });
-    });
-</script>
+
+        <button type="submit" style="margin-top: 1rem;"> Upload</button>
+    </form>
+</div>
