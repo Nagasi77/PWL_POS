@@ -343,8 +343,8 @@ class BarangController extends Controller
                 ]);
             }
 
-            return redirect('/');
         }
+        return redirect('/');
     }
 
     public function export_excel()
@@ -393,7 +393,7 @@ class BarangController extends Controller
         $sheet->setTitle('Data Barang');
 
         // Buat writer untuk file Excel
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $filename = 'Data Barang ' . date('Y-m-d H:i:s') . '.xlsx';
 
         // Set header HTTP untuk file download

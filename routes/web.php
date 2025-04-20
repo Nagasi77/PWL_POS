@@ -7,6 +7,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\RegisterController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -95,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/import', [BarangController::class, 'import']);
             Route::post('/import_ajax', [BarangController::class, 'import_ajax']);
             Route::get('/export_excel', [BarangController::class, 'export_excel']);
-            Route::get('/export_pdf', [BarangController::class, 'export_pdf']); 
+            Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
             Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);
         });
@@ -116,6 +117,19 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export_pdf', [StokController::class, 'export_pdf']);
             Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);
+        });
+    });
+
+    Route::middleware(['authorize:MNG,ADM,KSR'])->group(function () {
+
+        Route::prefix('penjualan')->group(function () {
+            Route::get('/', [PenjualanController::class, 'index']);
+            Route::post('/list', [PenjualanController::class, 'list'])->name('penjualan.list');
+            Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']);
+            Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']);
+            Route::get('/export_excel', [PenjualanController::class, 'export_excel']);
+            Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);
+            Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);
         });
     });
 

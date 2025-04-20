@@ -36,7 +36,7 @@
                         <select name="kategori_id" id="kategori_id" class="form-control" required>
                             <option value="">- Pilih Kategori -</option>
                             @foreach($kategori as $item)
-                                <option value="{{ $item->id }}"
+                                <option value="{{ $item->kategori_id }}"
                                     {{ old('kategori_id', $barang->kategori_id) == $item->kategori_id ? 'selected' : '' }}>
                                     {{ $item->kategori_nama }}
                                 </option>

@@ -57,7 +57,7 @@
                     alt="User Image" style="width: 35px; height: 35px; object-fit: cover;">
                 @else
                 <!-- Jika user belum punya foto -->
-                <img src="{{ asset('adminlte/dist/img/default_user.webp') }}" class="rounded-circle" alt="profil"
+                <img src="{{ asset('adminlte/dist/img/default_user.png') }}" class="rounded-circle" alt="profil"
                     style="width: 35px; height: 35px; object-fit: cover;">
                 @endif
             </a>
