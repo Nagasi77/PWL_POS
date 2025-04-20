@@ -6,6 +6,7 @@ use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log; // Tambahkan untuk logging
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\Facades\DataTables;
@@ -33,22 +34,20 @@ class BarangController extends Controller
     public function list(Request $request)
     {
         $barangs = BarangModel::with('kategori')->select('m_barang.*');
-
+    
         if ($request->filled('kategori_id')) {
             $barangs->where('kategori_id', $request->kategori_id);
         }
-
+    
         return DataTables::of($barangs)
             ->addIndexColumn()
             ->addColumn('kategori', function ($barang) {
                 return $barang->kategori ? $barang->kategori->kategori_nama : '-';
             })
             ->addColumn('aksi', function ($barang) {
-
-                $btn = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn = '<button onclick="modalAction(\'' . route('barang.show_ajax', $barang->barang_id) . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . route('barang.edit_ajax', $barang->barang_id) . '\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
-
                 return $btn;
             })
             ->rawColumns(['aksi'])
@@ -102,15 +101,31 @@ class BarangController extends Controller
 
     public function show_ajax($id)
     {
+        Log::info('Memanggil show_ajax untuk barang ID: ' . $id); // Tambahkan log
+
         $barang = BarangModel::with('kategori')->find($id);
+
+        if (!$barang) {
+            Log::warning('Barang dengan ID ' . $id . ' tidak ditemukan di show_ajax');
+        } else {
+            Log::info('Data barang ditemukan di show_ajax: ' . json_encode($barang));
+        }
 
         return view('barang.show_ajax', compact('barang'));
     }
 
     public function edit_ajax($id)
     {
+        Log::info('Memanggil edit_ajax untuk barang ID: ' . $id); // Tambahkan log
+
         $barang = BarangModel::find($id);
         $kategori = KategoriModel::all();
+
+        if (!$barang) {
+            Log::warning('Barang dengan ID ' . $id . ' tidak ditemukan di edit_ajax');
+        } else {
+            Log::info('Data barang ditemukan di edit_ajax: ' . json_encode($barang));
+        }
 
         return view('barang.edit_ajax', compact('barang', 'kategori'));
     }
@@ -204,7 +219,6 @@ class BarangController extends Controller
     public function import_ajax(Request $request)
     {
         if ($request->ajax() || $request->wantsJson()) {
-
             // Validasi file: harus .xlsx dengan ukuran maksimal 2MB
             $rules = [
                 'file_barang' => ['required', 'mimes:xlsx', 'max:2048'],
@@ -342,7 +356,6 @@ class BarangController extends Controller
                         "\n" . 'Mohon ikuti instruksi di template.',
                 ]);
             }
-
         }
         return redirect('/');
     }
@@ -418,7 +431,6 @@ class BarangController extends Controller
             ->orderBy('barang_kode')
             ->with('kategori')
             ->get();
-
 
         $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
         $pdf->setPaper('a4', 'portrait');

@@ -352,8 +352,8 @@ class StokController extends Controller
                 ]);
             }
 
-            return redirect('/');
         }
+        return redirect('/');
     }
 
     public function export_excel()

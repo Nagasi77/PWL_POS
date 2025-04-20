@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Kesalahan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -18,12 +18,18 @@
         </div>
     </div>
 @else
+    <!-- Tambahkan logging untuk debugging -->
+    @php
+        \Illuminate\Support\Facades\Log::info('Menampilkan show_ajax.blade.php untuk barang ID: ' . $barang->barang_id);
+        \Illuminate\Support\Facades\Log::info('Data kategori di show_ajax: ' . json_encode($barang->kategori));
+    @endphp
+
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Detail Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">

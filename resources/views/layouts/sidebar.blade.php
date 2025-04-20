@@ -54,6 +54,12 @@ $activeMenu = $activeMenu ?? '';
                     <p>Data Barang</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url('/supplier') }}" class="nav-link {{ ($activeMenu == 'suplier') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-folder"></i>
+                    <p>Data Suplier</p>
+                </a>
+            </li>
 
             <!-- Heading: Data Transaksi -->
             <li class="nav-header">Data Transaksi</li>

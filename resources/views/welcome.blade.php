@@ -6,28 +6,24 @@
         {{-- Ringkasan Total --}}
         <div class="row mb-4">
             <div class="col-sm-12 col-md-6 mb-3">
-                <div class="small-box shadow-lg rounded" style="background-color: #36A2EB; color: white;">
-                    <div class="inner text-center py-3">
-                        <h4>{{ \App\Helpers\Helper::ribuan($totalStokMasuk) }}</h4>
-                        <p class="mb-0">Total Stok Masuk</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-box" style="opacity: 0.5; font-size: 50px;"></i>
+                <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #4e73df, #224abe); color: white;">
+                    <div class="card-body text-center p-4">
+                        <h5 class="text-uppercase mb-2">Total Stok Masuk</h5>
+                        <h3 class="mb-0 font-weight-bold">{{ \App\Helpers\Helper::ribuan($totalStokMasuk) }}</h3>
                     </div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 mb-3">
-                <div class="small-box shadow-lg rounded" style="background-color: #FF6384; color: white;">
-                    <div class="inner text-center py-3">
-                        <h4>{{ \App\Helpers\Helper::ribuan($totalStokTerjual) }}</h4>
-                        <p class="mb-0">Total Barang Terjual</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-shopping-cart" style="opacity: 0.5; font-size: 50px;"></i>
+                <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #f445dd, #ee497b); color: white;">
+                    <div class="card-body text-center p-4">
+                        <h5 class="text-uppercase mb-2">Total Barang Terjual</h5>
+                        <h3 class="mb-0 font-weight-bold">{{ \App\Helpers\Helper::ribuan($totalStokTerjual) }}</h3>
                     </div>
                 </div>
             </div>
         </div>
+        
+    
 
         {{-- Grafik --}}
         <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
