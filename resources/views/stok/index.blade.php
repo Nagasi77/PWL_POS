@@ -5,17 +5,17 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <button onclick="modalAction('{{ url('stok/import') }}')" class="btn btn-sm btn-info mt-1">
-                <i class="fa fa-file-excel mr-1"></i>Import Stok
+            <button onclick="modalAction('{{ url('stok/import') }}')" class="btn btn-sm btn-info mt-1" style="border:0cm" >
+                <i class=""></i>Import EXC
             </button>
-            <a href="{{ url('/stok/export_excel') }}" class="btn btn-sm btn-primary mt-1">
-                <i class="fa fa-file-excel mr-1"></i>Export Stok
+            <a href="{{ url('/stok/export_excel') }}" class="btn btn-sm btn-primary mt-1" style="background-color: rgb(0, 90, 30); border:0cm">
+                <i class=""></i>Export EXC
             </a>
-            <a href="{{ url('/stok/export_pdf') }}" class="btn btn-sm btn-warning mt-1">
-                <i class="fa fa-file-pdf mr-1"></i> Export stok
+            <a href="{{ url('/stok/export_pdf') }}" class="btn btn-sm btn-warning mt-1" style="background-color: rgb(212, 0, 0); border:0cm; color:rgb(255, 255, 255) ">
+                <i class=""></i> Export PDF
             </a>
             <!-- Tombol untuk membuka form create stok via AJAX -->
-            <button onclick="modalAction('{{ url('stok/create_ajax') }}')" class="btn btn-sm btn-success mt-1">
+            <button onclick="modalAction('{{ url('stok/create_ajax') }}')" class="btn btn-sm btn-success mt-1" style="background-color: rgb(12, 206, 22); border:0cm; color:rgb(255, 255, 255) ">
                 Tambah Stok
             </button>
         </div>

@@ -5,11 +5,11 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-sm btn-primary mt-1">
-                <i class="fa fa-file-excel mr-1"></i>Export Detail Penjualan
+            <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-sm btn-primary mt-1" style="background-color: rgb(0, 90, 30); border:0cm">
+                <i class="fa fa-file-excel mr-1"></i>Export Detail Penjualan EXC
             </a>
-            <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-sm btn-warning mt-1">
-                <i class="fa fa-file-pdf mr-1"></i> Export Detail Penjualan
+            <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-sm btn-warning mt-1" style="background-color: rgb(247, 100, 100); border:0cm">
+                <i class="fa fa-file-pdf mr-1"></i> Export Detail Penjualan PDF
             </a>
         </div>
     </div>

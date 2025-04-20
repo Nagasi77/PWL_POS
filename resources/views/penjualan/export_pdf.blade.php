@@ -91,12 +91,10 @@
                 <img src="{{ public_path('assets/images/polinema-bw.png') }}" class="image">
             </td>
             <td width="85%">
-                <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN
-                    TEKNOLOGI</span>
+                <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
                 <span class="text-center d-block font-13 font-bold mb-1">POLITEKNIK NEGERI MALANG</span>
                 <span class="text-center d-block font-10">Jl. Soekarno-Hatta No. 9 Malang 65141</span>
-                <span class="text-center d-block font-10">Telepon (0341) 404424 Pes. 101-105, 0341-404420, Fax. (0341)
-                    404420</span>
+                <span class="text-center d-block font-10">Telepon (0341) 404424 Pes. 101-105, 0341-404420, Fax. (0341) 404420</span>
                 <span class="text-center d-block font-10">Laman: www.polinema.ac.id</span>
             </td>
         </tr>
@@ -131,13 +129,13 @@
                 <td>{{ $p->pembeli }}</td>
                 <td class="text-center">{{ \Carbon\Carbon::parse($p->penjualan_tanggal)->format('Y-m-d') }}</td>
                 <td>{{ $p->user->nama ?? '-' }}</td>
-                <td class="text-center">@rupiah($p->total_harga)</td>
+                <td class="text-center">{{ \App\Helpers\Helper::rupiah($p->total_harga) }}</td>
             </tr>
             @endforeach
             <!-- Total Keseluruhan -->
             <tr>
                 <th colspan="5" class="text-left">Total Keseluruhan</th>
-                <th class="grand-total">@rupiah($grandTotal)</th>
+                <th class="grand-total">{{ \App\Helpers\Helper::rupiah($grandTotal) }}</th>
             </tr>
         </tbody>
     </table>

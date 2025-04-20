@@ -5,16 +5,16 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-           <button onclick="modalAction('{{ url('barang/import') }}')" class="btn btn-sm btn-info mt-1" style="background-color: rgb(0, 90, 30); border:0cm" >
+           <button onclick="modalAction('{{ url('kategori/import') }}')" class="btn btn-sm btn-info mt-1" style="border:0cm" >
                 <i class=""></i>Import EXC
             </button>
-            <a href="{{ url('/barang/export_excel') }}" class="btn btn-sm btn-primary mt-1" style="background-color: rgb(90, 0, 86); border:0cm">
+            <a href="{{ url('/kategori/export_excel') }}" class="btn btn-sm btn-primary mt-1" style="background-color: rgb(0, 90, 30); border:0cm">
                 <i class=""></i>Export EXC
             </a>
-            <a href="{{ url('/barang/export_pdf') }}" class="btn btn-sm btn-warning mt-1" style="background-color: rgb(212, 0, 0); border:0cm; color:rgb(255, 255, 255) ">
+            <a href="{{ url('/kategori/export_pdf') }}" class="btn btn-sm btn-warning mt-1" style="background-color: rgb(212, 0, 0); border:0cm; color:rgb(255, 255, 255) ">
                 <i class=""></i> Export PDF
             </a>
-            <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1" style="background-color: rgb(12, 206, 22); border:0cm; color:rgb(255, 255, 255) ">
+            <button onclick="modalAction('{{ url('kategori/create_ajax') }}')" class="btn btn-sm btn-success mt-1" style="background-color: rgb(12, 206, 22); border:0cm; color:rgb(255, 255, 255) ">
                 Tambah Barang
             </button>
         </div>
