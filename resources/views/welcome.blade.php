@@ -27,7 +27,7 @@
 
         {{-- Grafik --}}
         <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
-            <div class="card-header bg-gradient-dark text-white d-flex align-items-center">
+            <div class="card-header bg-white text-white d-flex align-items-center">
                 <h3 class="card-title mb-0">
                     <i class="fas fa-chart-area mr-2"></i> Statistik Barang Masuk dan Terjual
                 </h3>

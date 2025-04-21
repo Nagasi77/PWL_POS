@@ -4,8 +4,10 @@ namespace App\Helpers;
 
 class Helper
 {
-    public static function rupiah($value)
+    // Existing methods
+
+    public static function ribuan($number)
     {
-        return 'Rp ' . number_format($value, 0, ',', '.');
+        return number_format($number, 0, ',', '.');
     }
 }

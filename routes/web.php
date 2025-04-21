@@ -135,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::middleware(['authorize:MNG,ADM,KSR'])->group(function () {
     Route::prefix('supplier')->group(function () {
         Route::get('/', [SupplierController::class, 'index']);
         Route::post('/list', [SupplierController::class, 'list'])->name('supplier.list');
@@ -150,6 +151,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']);
         Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']);
     });
+});
 
     Route::get('/', [WelcomeController::class, 'index']);
 });
