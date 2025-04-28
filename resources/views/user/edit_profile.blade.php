@@ -19,7 +19,7 @@
             @csrf
             @method('PUT')
 
-            <!-- Opsi Upload Foto Profil -->
+        
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Foto</label>
                 <div class="col-11">

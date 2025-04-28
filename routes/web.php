@@ -13,7 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::pattern('id', '(0-9)+');
+// Route::pattern('id', '(0-9)+');
 //Logreg
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postlogin']);
@@ -127,6 +127,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('penjualan')->group(function () {
             Route::get('/', [PenjualanController::class, 'index']);
             Route::post('/list', [PenjualanController::class, 'list'])->name('penjualan.list');
+            Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']);
+            Route::post('/store_ajax', [PenjualanController::class, 'store_ajax']);
             Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']);
             Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']);
             Route::get('/export_excel', [PenjualanController::class, 'export_excel']);

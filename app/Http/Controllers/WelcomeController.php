@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BarangModel;
 use App\Models\StokModel;
 use App\Models\PenjualanDetailModel;
+use App\Models\KategoriModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -12,14 +13,12 @@ use Exception;
 class WelcomeController extends Controller
 {
     /**
-     * Display the dashboard with stock and sales summary.
-     *
      * @return \Illuminate\View\View
      */
     public function index()
     {
         try {
-            Log::debug('Memulai fungsi index di WelcomeController'); // Tambahkan log di awal
+            Log::debug('Memulai fungsi index di WelcomeController'); 
 
             $breadcrumbs = (object) [
                 'title' => 'Selamat Datang',
@@ -31,32 +30,39 @@ class WelcomeController extends Controller
             $totalStokMasuk = StokModel::sum('stok_jumlah');
             $totalStokTerjual = PenjualanDetailModel::sum('jumlah');
 
+            // Hitung total stok siap (stok masuk - stok terjual)
+            $totalStokSiap = $totalStokMasuk - $totalStokTerjual;
+
             // Logging untuk debugging
             Log::info('Total Stok Masuk: ' . $totalStokMasuk);
             Log::info('Total Stok Terjual: ' . $totalStokTerjual);
+            Log::info('Total Stok Siap: ' . $totalStokSiap);
 
-            // Data per barang untuk grafik
-            $stokMasuk = StokModel::select('barang_id', DB::raw('SUM(stok_jumlah) as total_masuk'))
-                ->groupBy('barang_id');
-            $stokTerjual = PenjualanDetailModel::select('barang_id', DB::raw('SUM(jumlah) as total_terjual'))
-                ->groupBy('barang_id');
+            // Data per kategori untuk grafik
+            $stokMasuk = StokModel::select('m_barang.kategori_id', DB::raw('SUM(stok_jumlah) as total_masuk'))
+                ->join('m_barang', 't_stok.barang_id', '=', 'm_barang.barang_id') // Ubah m_stok menjadi t_stok
+                ->groupBy('m_barang.kategori_id');
+            $stokTerjual = PenjualanDetailModel::select('m_barang.kategori_id', DB::raw('SUM(jumlah) as total_terjual'))
+                ->join('m_barang', 't_penjualan_detail.barang_id', '=', 'm_barang.barang_id')
+                ->groupBy('m_barang.kategori_id');
 
-            $ringkasan = BarangModel::from('m_barang as barang')
+            $ringkasan = KategoriModel::from('m_kategori as kategori')
                 ->select(
-                    'barang.barang_nama',
+                    'kategori.kategori_nama',
                     DB::raw('COALESCE(masuk.total_masuk, 0) as total_masuk'),
-                    DB::raw('COALESCE(terjual.total_terjual, 0) as total_terjual')
+                    DB::raw('COALESCE(terjual.total_terjual, 0) as total_terjual'),
+                    DB::raw('COALESCE(masuk.total_masuk, 0) - COALESCE(terjual.total_terjual, 0) as stok_siap')
                 )
                 ->leftJoinSub($stokMasuk, 'masuk', function ($join) {
-                    $join->on('barang.barang_id', '=', 'masuk.barang_id');
+                    $join->on('kategori.kategori_id', '=', 'masuk.kategori_id');
                 })
                 ->leftJoinSub($stokTerjual, 'terjual', function ($join) {
-                    $join->on('barang.barang_id', '=', 'terjual.barang_id');
+                    $join->on('kategori.kategori_id', '=', 'terjual.kategori_id');
                 })
-                ->orderBy('barang.barang_nama')
+                ->orderBy('kategori.kategori_nama')
                 ->get();
 
-            return view('welcome', compact('breadcrumbs', 'activeMenu', 'totalStokMasuk', 'totalStokTerjual', 'ringkasan'));
+            return view('welcome', compact('breadcrumbs', 'activeMenu', 'totalStokMasuk', 'totalStokTerjual', 'totalStokSiap', 'ringkasan'));
         } catch (Exception $e) {
             Log::error('Error loading dashboard: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat dashboard.');

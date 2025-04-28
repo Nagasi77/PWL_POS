@@ -5,7 +5,7 @@
     <div class="container-fluid">
         {{-- Ringkasan Total --}}
         <div class="row mb-4">
-            <div class="col-sm-12 col-md-6 mb-3">
+            <div class="col-sm-12 col-md-4 mb-3">
                 <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #4e73df, #224abe); color: white;">
                     <div class="card-body text-center p-4">
                         <h5 class="text-uppercase mb-2">Total Stok Masuk</h5>
@@ -13,23 +13,31 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 mb-3">
+            
+            <div class="col-sm-12 col-md-4 mb-3">
                 <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #f445dd, #ee497b); color: white;">
                     <div class="card-body text-center p-4">
-                        <h5 class="text-uppercase mb-2">Total Barang Terjual</h5>
+                        <h5 class="text-uppercase mb-2">Total Stok Terjual</h5>
                         <h3 class="mb-0 font-weight-bold">{{ \App\Helpers\Helper::ribuan($totalStokTerjual) }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4 mb-3">
+                <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #9e35cf, #491a74); color: white;">
+                    <div class="card-body text-center p-4">
+                        <h5 class="text-uppercase mb-2">Total Stok Siap</h5>
+                        <h3 class="mb-0 font-weight-bold">{{ \App\Helpers\Helper::ribuan($totalStokSiap) }}</h3>
                     </div>
                 </div>
             </div>
         </div>
         
-    
-
         {{-- Grafik --}}
-        <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
+        <div class="card border-0 shadow-lg rounded-lg overflow-hidden mb-5">
             <div class="card-header bg-white text-white d-flex align-items-center">
                 <h3 class="card-title mb-0">
-                    <i class="fas fa-chart-area mr-2"></i> Statistik Barang Masuk dan Terjual
+                    <i class="fas fa-chart-area mr-2"></i> Statistik Kategori Masuk, Terjual, dan Siap
                 </h3>
             </div>
             <div class="card-body bg-light p-4">
@@ -45,6 +53,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </section>
 @endsection
 
@@ -56,7 +65,7 @@
         const stokChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($ringkasan->pluck('barang_nama')) !!},
+                labels: {!! json_encode($ringkasan->pluck('kategori_nama')) !!},
                 datasets: [
                     {
                         label: 'Barang Masuk',
@@ -73,6 +82,16 @@
                         data: {!! json_encode($ringkasan->pluck('total_terjual')) !!},
                         borderColor: 'rgba(255, 99, 132, 1)',
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                    },
+                    {
+                        label: 'Stok Siap',
+                        data: {!! json_encode($ringkasan->pluck('stok_siap')) !!},
+                        borderColor: '#9e35cf',
+                        backgroundColor: 'rgba(158, 53, 207, 0.2)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 5,

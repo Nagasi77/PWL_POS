@@ -11,6 +11,9 @@
             <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-sm btn-warning mt-1" style="background-color: rgb(247, 100, 100); border:0cm">
                 <i class="fa fa-file-pdf mr-1"></i> Export Detail Penjualan PDF
             </a>
+            <button onclick="modalAction('{{ url('penjualan/create_ajax') }}')" class="btn btn-sm btn-success mt-1" style="background-color: rgb(12, 206, 22); border:0cm; color:rgb(255, 255, 255) ">
+                Tambah Penjualan
+            </button>
         </div>
     </div>
     <div class="card-body">
