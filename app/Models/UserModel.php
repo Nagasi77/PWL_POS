@@ -26,7 +26,7 @@ class UserModel extends Authenticatable
     {
         return $this->level->level_kode;
     }
-     public function level(): BelongsTo
+    public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
     }
