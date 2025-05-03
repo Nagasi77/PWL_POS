@@ -15,10 +15,7 @@ class LevelModel extends Model
     protected $primaryKey = 'level_id';
     public $timestamps = true;
 
-    protected $fillable = [
-        'level_kode',
-        'level_nama'
-    ];
+    protected $fillable = ['level_kode', 'level_nama', 'created_at', 'updated_at'];
 
     public function user(): HasMany
     {
